@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.example.cupones.common.entitys.CuponEntity"/>
+        <variable
+            name="viewModel"
+            type="com.example.cupones.mainModule.viewModel.MainViewModel" />
+        
+        <variable
+            name="isActive"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/common_padding_large"
+        android:paddingVertical="@dimen/defauld"
+        tools:context=".mainModule.view.MainActivity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConsult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_botton_consult"
+            android:onClick="@{() -> viewModel.consultCuponByCode()}"
+            app:layout_constraintStart_toEndOf="@id/btnCreate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_botton_create"
+            android:onClick="@{() -> viewModel.saveCupon()}"
+            app:isGone="@{isActive}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnConsult"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@{isActive ? @color/white : @color/purple}"
+            android:text="@{isActive ? @string/main_text_title : @string/main_text_title_new}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilCupon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/main_hint_cupon"
+            android:layout_marginBottom="@dimen/defauld"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btnConsult"
+            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtCupon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.cupon.code}"
+                android:contentDescription="@string/main_hint_cupon"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDescripcion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@{isActive ? @string/main_hint_active : @string/main_hint_descipcion}"
+            android:enabled="@{!isActive}"
+            app:endIconMode="clear_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tilCupon"
+            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.cupon.descripcion}"
+                android:contentDescription="@string/main_hint_descipcion"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
